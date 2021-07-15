@@ -31,8 +31,8 @@ def vars(line):
                 charY = str(i)
                 yFound = True
             cpt += 1
-    lesY = backPossible(lesY)
     lesX = backPossible(lesX)
+    lesY = backPossible(lesY)
     return [int(lesX),int(lesY),int(leR),charX,charY]
 
 def backPossible(laVar):
@@ -75,7 +75,7 @@ def calcul(t1,t2):
         return ["ERREUR","<VariableError> : 2 inconnues attendues"]
     if t1[0] == t2[0] and t1[1] == t2[1]:
         return ["ERREUR","<SolutionNotFound> : Les droites sont parallèles"]
-    if checkV1IsNotDividendeOfV2(t1,t2):
+    if checkV1IsNotDividendeOfV2(t1,t2) and checkV1IsNotDividendeOfV2(t2,t1):
         coeff = ppcm(t1[0],t2[0])
         x = int(coeff / t1[0])
         y = int(coeff / t2[0])
@@ -109,7 +109,10 @@ if len(argv) == 2:
                 v1 = vars(tmp[0])
                 v2 = vars(tmp[1])
                 res = calcul(v1,v2)
-                print("| Solution : "+res[0]+", "+res[1]+"\n\\__________________________________________________________________________")
+                if res[0] == "ERREUR":
+                    print("| "+res[0]+" : "+res[1]+"\n\\__________________________________________________________________________")
+                else:
+                    print("| Solution : "+res[0]+", "+res[1]+"\n\\__________________________________________________________________________")
                 tmp=[]
                 cpt = 0
 else:
